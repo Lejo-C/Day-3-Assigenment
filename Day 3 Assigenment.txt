@@ -1,0 +1,60 @@
+how to compar two JSON have the same properties without order?                                                                               
+a. var obj 1 = {name: "person 1",age:5}                                                                                                   
+b. var obj 2 = {name:age:5, "person 1"}   
+
+Ans:
+var obj1 = {name: "person 1", age: 5};
+var obj2 = {age: 5, name: "person 1"};
+
+// Step 1: Convert objects to sorted string representations
+var obj1String = JSON.stringify(obj1, Object.keys(obj1).sort());
+var obj2String = JSON.stringify(obj2, Object.keys(obj2).sort());
+
+// Step 2: Compare the sorted string representations
+if (obj1String === obj2String) {
+    console.log("Objects are equal.");
+} else {
+    console.log("Objects are not equal.");
+}
+2. use the rest countries API URL https://restcountries.com/v3.1/all and display all the country flags in the consol
+Ans:
+var request = new XMLHttpRequest();
+request.open("GET", "https://restcountries.com/v3.1/all");
+request.send();
+
+request.onload = function() {
+    if (request.status == 200) {
+        var result = JSON.parse(request.responseText);
+        
+        for (var i = 0; i < result.length; i++) {
+            var country = result[i];
+            var flagUrl = country.flags.png; // Accessing the flag URL
+            console.log(country.name.common + ": " + flagUrl);
+        }
+    } else {
+        console.error('Failed to fetch data');
+    }
+}
+3. Use the same rest countries and print all countries name, regions, sub-regions and populations
+Ans:
+var request = new XMLHttpRequest();
+request.open("GET", "https://restcountries.com/v3.1/all");
+request.send();
+
+request.onload = function() {
+    if (request.status == 200) {
+        var result = JSON.parse(request.responseText);
+        
+        for (var i = 0; i < result.length; i++) {
+            var country = result[i];
+            var name = country.name.common;
+            var region = country.region;
+            var subregion = country.subregion;
+            var population = country.population.toLocaleString(); // Format population with commas
+            
+            console.log(`Country: ${name}, Region: ${region}, Subregion: ${subregion}, Population: ${population}`);
+        }
+    } else {
+        console.error('Failed to fetch data');
+    }
+}
